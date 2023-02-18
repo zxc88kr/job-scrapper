@@ -3,5 +3,5 @@ numbers = [1, "💖", 2, "🔥", 3, "⭐️", 4, "💖", 5, "🔥", 6, "⭐️",
 sum = 0
 for item in numbers:
     if type(item) is int:
-        sum = sum + item
+        sum += item
 print(sum)
