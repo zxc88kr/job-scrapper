@@ -1,21 +1,7 @@
-from requests import get
+numbers = [1, "💖", 2, "🔥", 3, "⭐️", 4, "💖", 5, "🔥", 6, "⭐️", 7, "💖", 8, "🔥", 9, "⭐️", 10, "💖", 11, "🔥", 12, "⭐️", 13, "💖", 14, "🔥", 15, "⭐️", 16]
 
-websites = (
-    "google.com",
-    "airbnb.com",
-    "twitter.com",
-    "facebook.com"
-)
-
-results = { }
-
-for website in websites:
-    if not website.startswith("https://"):
-        website = f"https://{website}"
-    response = get(website)
-    if (response.status_code == 200):
-        results[website] = "OK"
-    else:
-        results[website] = "FAILED"
-
-print(results)
+sum = 0
+for item in numbers:
+    if type(item) is int:
+        sum = sum + item
+print(sum)
