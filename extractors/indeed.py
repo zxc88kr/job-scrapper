@@ -9,9 +9,8 @@ chrome_options.add_experimental_option("detach", True)
 chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
 chrome_service = Service(executable_path=ChromeDriverManager().install())
 
-browser = webdriver.Chrome(options=chrome_options, service=chrome_service)
-
 def get_page_count(keyword):
+    browser = webdriver.Chrome(options=chrome_options, service=chrome_service)
     base_url = "https://kr.indeed.com/jobs?q="
     browser.get(f"{base_url}{keyword}")
     soup = BeautifulSoup(browser.page_source, "html.parser")
@@ -28,6 +27,7 @@ def get_page_count(keyword):
 def extract_indeed_jobs(keyword):
     results = []
     pages = get_page_count(keyword)
+    browser = webdriver.Chrome(options=chrome_options, service=chrome_service)
     for page in range(pages):
         base_url = "https://kr.indeed.com/jobs"
         browser.get(f"{base_url}?q={keyword}&start={page * 10}")
@@ -38,15 +38,15 @@ def extract_indeed_jobs(keyword):
             zone = job.find("div", class_="mosaic-zone")
             if zone == None:
                 anchor = job.select_one("h2 a")
-                link = anchor["href"]
+                title = anchor["aria-label"]
                 company = job.find("span", class_="companyName")
                 location = job.find("div", class_="companyLocation")
-                title = anchor["aria-label"]
+                link = anchor["href"]
                 job_data = {
-                    "link": f"https://kr.indeed.com{link}",
-                    "company": company.string,
-                    "location": location.string,
-                    "position": title
+                    "position": title.replace(",", " "),
+                    "company": company.string.replace(",", " "),
+                    "location": location.string.replace(",", " "),
+                    "link": f"https://kr.indeed.com{link}"
                 }
                 results.append(job_data)
     return results
