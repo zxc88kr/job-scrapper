@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 
 def extract_remote_jobs(keyword):
     results = []
-    url = f"https://remoteok.com/remote-{keyword}-jobs"
-    response = get(url, headers={"User-Agent": "Kimchi"})
+    base_url = "https://remoteok.com"
+    response = get(f"{base_url}/remote-{keyword}-jobs", headers={"User-Agent":"Kimchi"})
     if response.status_code != 200:
         print("Can't request website")
     else:
@@ -21,7 +21,7 @@ def extract_remote_jobs(keyword):
                 "position": title.strip(),
                 "company": company.strip(),
                 "location": location.strip(),
-                "link": f"https://remoteok.com{link}"
+                "link": f"{base_url}{link}"
             }
             results.append(job_data)
     return results

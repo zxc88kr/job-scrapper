@@ -11,8 +11,8 @@ chrome_service = Service(executable_path=ChromeDriverManager().install())
 
 def get_page_count(keyword):
     browser = webdriver.Chrome(options=chrome_options, service=chrome_service)
-    base_url = "https://kr.indeed.com/jobs?q="
-    browser.get(f"{base_url}{keyword}")
+    base_url = "https://kr.indeed.com"
+    browser.get(f"{base_url}/jobs?q={keyword}")
     soup = BeautifulSoup(browser.page_source, "html.parser")
     pagination = soup.find("nav", attrs={"aria-label":"pagination"})
     pages = pagination.select("div a")
@@ -29,8 +29,8 @@ def extract_indeed_jobs(keyword):
     pages = get_page_count(keyword)
     browser = webdriver.Chrome(options=chrome_options, service=chrome_service)
     for page in range(pages):
-        base_url = "https://kr.indeed.com/jobs"
-        browser.get(f"{base_url}?q={keyword}&start={page * 10}")
+        base_url = "https://kr.indeed.com"
+        browser.get(f"{base_url}/jobs?q={keyword}&start={page * 10}")
         soup = BeautifulSoup(browser.page_source, "html.parser")
         job_list = soup.find("ul", class_="jobsearch-ResultsList")
         jobs = job_list.find_all("li", recursive=False)
@@ -46,7 +46,7 @@ def extract_indeed_jobs(keyword):
                     "position": title.replace(",", " "),
                     "company": company.replace(",", " "),
                     "location": location.replace(",", " "),
-                    "link": f"https://kr.indeed.com{link}"
+                    "link": f"{base_url}{link}"
                 }
                 results.append(job_data)
     return results
