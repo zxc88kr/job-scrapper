@@ -38,14 +38,14 @@ def extract_indeed_jobs(keyword):
             zone = job.find("div", class_="mosaic-zone")
             if zone == None:
                 anchor = job.select_one("h2 a")
-                title = anchor["aria-label"]
-                company = job.find("span", class_="companyName")
-                location = job.find("div", class_="companyLocation")
+                title = anchor.find("span").string
+                company = job.find("span", class_="companyName").string
+                location = job.find("div", class_="companyLocation").text.split("+")[0]
                 link = anchor["href"]
                 job_data = {
                     "position": title.replace(",", " "),
-                    "company": company.string.replace(",", " "),
-                    "location": location.string.replace(",", " "),
+                    "company": company.replace(",", " "),
+                    "location": location.replace(",", " "),
                     "link": f"https://kr.indeed.com{link}"
                 }
                 results.append(job_data)
