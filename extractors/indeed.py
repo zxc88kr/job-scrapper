@@ -22,6 +22,7 @@ def get_page_count(keyword):
             count -= 1
         if page["aria-label"] == "Next Page":
             count -= 1
+    browser.quit()
     return count
 
 def extract_indeed_jobs(keyword):
@@ -49,4 +50,5 @@ def extract_indeed_jobs(keyword):
                     "link": f"{base_url}{link}"
                 }
                 results.append(job_data)
+    browser.quit()    
     return results
