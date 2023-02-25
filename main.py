@@ -25,7 +25,8 @@ def search():
         remote = extract_remote_jobs(keyword)
         jobs = wwr + indeed + remote
         db[keyword] = jobs
-    return render_template("search.html", keyword=keyword, jobs=jobs)
+    count = len(jobs)
+    return render_template("search.html", keyword=keyword, count=count, jobs=jobs)
 
 @app.route("/export")
 def export():
