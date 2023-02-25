@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, send_file
+from flask import Flask, request, render_template, redirect, send_file
 from extractors.wwr import extract_wwr_jobs
 from extractors.indeed import extract_indeed_jobs
 from extractors.remote import extract_remote_jobs
