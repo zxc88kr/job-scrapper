@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, send_file
 from extractors.wwr import extract_wwr_jobs
-from extractors.indeed import extract_indeed_jobs
 from extractors.remote import extract_remote_jobs
+from extractors.indeed import extract_indeed_jobs
 from file import save_to_file
 
 app = Flask("JobScrapper")
@@ -21,9 +21,12 @@ def search():
         jobs = db[keyword]
     else:
         wwr = extract_wwr_jobs(keyword)
-        indeed = extract_indeed_jobs(keyword)
         remote = extract_remote_jobs(keyword)
-        jobs = wwr + indeed + remote
+        try:
+            indeed = extract_indeed_jobs(keyword)
+            jobs = wwr + remote + indeed
+        except:
+            jobs = wwr + remote
         db[keyword] = jobs
     count = len(jobs)
     return render_template("search.html", keyword=keyword, count=count, jobs=jobs)

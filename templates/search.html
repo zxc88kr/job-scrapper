@@ -8,30 +8,33 @@
         <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
     </head>
     <body>
-        <hgroup>
-            <h1>Search Results for "{{keyword}}"</h1>
-            <h3>{{count}} jobs found</h3>
-            <a href="/export?keyword={{keyword}}" target="_blank">Export to file</a>
-        </hgroup>
-        <figure><table role="grid">
-            <thead>
-                <tr>
-                    <th>Position</th>
-                    <th>Company</th>
-                    <th>Location</th>
-                    <th>URL</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for job in jobs %}
+        <main class="container">
+            <hgroup>
+                <h1>Search Results for "{{keyword}}"</h1>
+                <h3>{{count}} jobs found</h3>
+                <a href="/export?keyword={{keyword}}" target="_blank">Export to file</a>
+                <a href="/" target="_self">Back</a>
+            </hgroup>
+            <figure><table role="grid">
+                <thead>
                     <tr>
-                        <td>{{job.position}}</td>
-                        <td>{{job.company}}</td>
-                        <td>{{job.location}}</td>
-                        <td><a href="{{job.link}}" target="_blank">Apply &rarr;</a></td>
+                        <th><strong>Position</strong></th>
+                        <th><strong>Company</strong></th>
+                        <th><strong>Location</strong></th>
+                        <th><strong>URL</strong></th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table></figure>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                        <tr>
+                            <td>{{job.position}}</td>
+                            <td>{{job.company}}</td>
+                            <td>{{job.location}}</td>
+                            <td><a href="{{job.link}}" target="_blank">Apply</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table></figure>
+        </main>
     </body>
 </html>

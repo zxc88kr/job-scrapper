@@ -26,9 +26,9 @@ def get_page_count(keyword):
     return count
 
 def extract_indeed_jobs(keyword):
+    browser = webdriver.Chrome(options=chrome_options, service=chrome_service)
     results = []
     pages = get_page_count(keyword)
-    browser = webdriver.Chrome(options=chrome_options, service=chrome_service)
     for page in range(pages):
         base_url = "https://kr.indeed.com"
         browser.get(f"{base_url}/jobs?q={keyword}&start={page * 10}")
